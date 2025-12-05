@@ -1,11 +1,11 @@
 # MemeMarket API - La Bolsa de Memes
 
-Esta es una API REST lúdica diseñada con fines educativos para simular una bolsa de valores donde la mercancía que se compra y vende son acciones de memes virales famosos.
+Esta es una API REST diseñada con fines educativos para simular una bolsa de valores donde la mercancía que se compra y vende son acciones de memes virales famosos.
 
 El propósito de esta API es permitir interactuar con un sistema de backend funcional, incluyendo: 
 1. autenticación de usuarios, 
 2. gestión de base de datos y 
-3. lógica de transacciones financieras (compra y venta de Memes).
+3. lógica de transacciones financieras (compra de acciones de Memes).
 
 ## Tecnologías Utilizadas
 

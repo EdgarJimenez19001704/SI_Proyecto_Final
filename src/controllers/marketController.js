@@ -2,7 +2,6 @@ const MemeStock = require('../models/MemeStock');
 const User = require('../models/User');
 const Transaction = require('../models/Transaction');
 
-// Semilla inicial de datos (para que la DB no esté vacía)
 exports.seedMarket = async (req, res) => {
     const stocks = [
         { symbol: 'DOGE', name: 'DogeCoin', price: 150 },
@@ -25,11 +24,25 @@ exports.buyStock = async (req, res) => {
         const { symbol, quantity } = req.body;
         const userId = req.user.id;
 
+
+        if (!quantity || quantity <= 0) {
+            return res.status(400).json({ error: 'La cantidad debe ser un número mayor a 0.' });
+        }
+        
+        // Adicional
+        if (!Number.isInteger(quantity)) {
+            return res.status(400).json({ error: 'Solo se permiten cantidades enteras.' });
+        }
+
         const stock = await MemeStock.findOne({ symbol });
         const user = await User.findById(userId);
 
         if (!stock) return res.status(404).json({ error: 'Meme no encontrado' });
-        
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+        // Inicialización defensiva del portafolio (corrección previa del bug de crash)
+        if (!user.portfolio) user.portfolio = [];
+
         const totalCost = stock.price * quantity;
 
         if (user.walletBalance < totalCost) {
@@ -37,7 +50,7 @@ exports.buyStock = async (req, res) => {
         }
 
         // Actualizar balance
-        user.walletBalance -= totalCost;  //user.walletBalance = user.walletBalance - totalCost;
+        user.walletBalance -= totalCost;
         
         // Actualizar portafolio
         const existingStockIndex = user.portfolio.findIndex(p => p.symbol === symbol);
@@ -61,10 +74,7 @@ exports.buyStock = async (req, res) => {
         res.json({ message: `Compra exitosa! Ahora tienes más ${symbol}`, newBalance: user.walletBalance });
 
     } catch (error) {
-        console.error("ERROR CRÍTICO EN COMPRA:", error);
-        res.status(500).json({ 
-            error: 'Error en la transacción', 
-            details: error.message
-        });
+        console.error("ERROR EN COMPRA:", error);
+        res.status(500).json({ error: 'Error en la transacción', details: error.message });
     }
 };
