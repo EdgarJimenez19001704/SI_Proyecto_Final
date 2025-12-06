@@ -53,3 +53,22 @@ npm run dev
 
 # Endpoints Principales
 
+Aquí tienes una lista concisa de los endpoints principales de la API MemeMarket, sin formato de tabla:
+
+Autenticación:
+
+POST /api/auth/register (Para crear usuarios)
+
+POST /api/auth/login (Para obtener el token de acceso)
+
+Mercado y Transacciones (Requieren Token):
+
+GET /api/market (Consulta las acciones de memes disponibles)
+
+POST /api/market/buy (Permite comprar acciones de memes)
+
+Información del Usuario (Requieren Token):
+
+GET /api/users/profile (Consulta el saldo y portafolio del usuario autenticado)
+
+GET /api/users/:userId/transactions (Consulta el historial de transacciones de un usuario por su ID)
