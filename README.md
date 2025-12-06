@@ -53,8 +53,6 @@ npm run dev
 
 # Endpoints Principales
 
-Aquí tienes una lista concisa de los endpoints principales de la API MemeMarket, sin formato de tabla:
-
 Autenticación:
 
 POST /api/auth/register (Para crear usuarios)
